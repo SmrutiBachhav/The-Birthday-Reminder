@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="2Gj-4K-Cu6">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="2Gj-4K-Cu6" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Gj-4K-Cu6" id="h2b-Dh-HBc">
@@ -51,7 +52,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="BirthdayReminderViewController" customModule="The_Birthday_Reminder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="CYR-CO-thI">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="hys-NA-vfu">
@@ -63,7 +64,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BdyReminderItemCell" id="M5I-Xl-fUM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="M5I-Xl-fUM" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="94" width="393" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M5I-Xl-fUM" id="CFh-4A-C2L">
@@ -81,10 +82,136 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="SfQ-82-bPe" kind="show" identifier="goToEditItem" id="BjV-qS-AaW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1250" y="-27"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="ihK-WT-V2r">
+            <objects>
+                <viewController id="SfQ-82-bPe" customClass="DetailViewController" customModule="The_Birthday_Reminder" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="center" id="yEP-dn-XTe">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kmE-1G-VpQ">
+                                <rect key="frame" x="20" y="79" width="353" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="QgZ-dC-Zr9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="nameField:" destination="SfQ-82-bPe" eventType="editingDidEnd" id="erx-vN-6SE"/>
+                                </connections>
+                            </textField>
+                            <datePicker contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="inline" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5M-zK-Hzx">
+                                <rect key="frame" x="20" y="113" width="353" height="399"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="399" id="Nmm-mW-tJ4"/>
+                                </constraints>
+                                <date key="date" timeIntervalSinceReferenceDate="778330964.65491402">
+                                    <!--2025-08-31 11:02:44 +0000-->
+                                </date>
+                            </datePicker>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Any Plans?" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T6C-H1-fyM">
+                                <rect key="frame" x="20" y="528" width="353" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="plansField:" destination="SfQ-82-bPe" eventType="editingDidEnd" id="HGK-0c-2RQ"/>
+                                </connections>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Rmk-7f-afo">
+                                <rect key="frame" x="20" y="568" width="350" height="160"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set reminder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzI-Ii-Oeq">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="76"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="PyI-CY-530">
+                                        <rect key="frame" x="0.0" y="84" width="350" height="77"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="350" id="PWw-Cg-odr"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title=" Exact day"/>
+                                            <segment title="1 day"/>
+                                            <segment title="1 week"/>
+                                            <segment title="1 month"/>
+                                            <segment title="custom"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="indexChanged:" destination="SfQ-82-bPe" eventType="valueChanged" id="EMY-29-CiK"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="122" translatesAutoresizingMaskIntoConstraints="NO" id="yXD-Cl-uag">
+                                <rect key="frame" x="20" y="752" width="324.66666666666669" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat every year?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWe-Wh-Kts">
+                                        <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Repeat every year" translatesAutoresizingMaskIntoConstraints="NO" id="Wek-oc-F7s">
+                                        <rect key="frame" x="275.66666666666669" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="repeatYearly:" destination="SfQ-82-bPe" eventType="valueChanged" id="4fr-O1-Hla"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="I3Y-O8-geP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="T6C-H1-fyM" secondAttribute="trailing" constant="20" id="B4Y-Li-nTS"/>
+                            <constraint firstItem="kmE-1G-VpQ" firstAttribute="top" secondItem="I3Y-O8-geP" secondAttribute="top" constant="20" id="DMW-H9-omU"/>
+                            <constraint firstItem="kmE-1G-VpQ" firstAttribute="leading" secondItem="yEP-dn-XTe" secondAttribute="leading" constant="20" id="DZb-1h-Z37"/>
+                            <constraint firstItem="Rmk-7f-afo" firstAttribute="top" secondItem="T6C-H1-fyM" secondAttribute="bottom" constant="16" id="Fh1-ii-tlR"/>
+                            <constraint firstItem="p5M-zK-Hzx" firstAttribute="leading" secondItem="yEP-dn-XTe" secondAttribute="leading" constant="20" id="Fn5-7x-16S"/>
+                            <constraint firstItem="T6C-H1-fyM" firstAttribute="top" secondItem="p5M-zK-Hzx" secondAttribute="bottom" constant="16" id="G5u-zV-CdV"/>
+                            <constraint firstItem="T6C-H1-fyM" firstAttribute="leading" secondItem="yEP-dn-XTe" secondAttribute="leading" constant="20" id="Q90-Zx-ho6"/>
+                            <constraint firstAttribute="trailing" secondItem="p5M-zK-Hzx" secondAttribute="trailing" constant="20" id="YWt-bF-pa3"/>
+                            <constraint firstItem="I3Y-O8-geP" firstAttribute="bottom" secondItem="yXD-Cl-uag" secondAttribute="bottom" id="ZMA-rC-INg"/>
+                            <constraint firstItem="Rmk-7f-afo" firstAttribute="leading" secondItem="yEP-dn-XTe" secondAttribute="leading" constant="20" id="ceC-k1-0gC"/>
+                            <constraint firstAttribute="trailing" secondItem="kmE-1G-VpQ" secondAttribute="trailing" constant="20" id="ean-Lp-tNx"/>
+                            <constraint firstItem="I3Y-O8-geP" firstAttribute="bottom" secondItem="yXD-Cl-uag" secondAttribute="bottom" id="jh8-ru-22h"/>
+                            <constraint firstItem="I3Y-O8-geP" firstAttribute="trailing" secondItem="kmE-1G-VpQ" secondAttribute="trailing" constant="20" id="jj9-bu-eu6"/>
+                            <constraint firstItem="p5M-zK-Hzx" firstAttribute="bottom" secondItem="T6C-H1-fyM" secondAttribute="bottom" constant="-40" id="mz6-3w-38J"/>
+                            <constraint firstItem="yXD-Cl-uag" firstAttribute="top" secondItem="Rmk-7f-afo" secondAttribute="bottom" constant="24" id="oTa-8U-lNg"/>
+                            <constraint firstItem="kmE-1G-VpQ" firstAttribute="bottom" secondItem="p5M-zK-Hzx" secondAttribute="top" constant="-10" id="of0-DY-NBy"/>
+                            <constraint firstItem="yXD-Cl-uag" firstAttribute="leading" secondItem="yEP-dn-XTe" secondAttribute="leading" constant="20" id="wa0-VD-2B0"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="81f-N3-YoC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="cwx-qf-sqL">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="SfQ-82-bPe" id="DGT-fh-ZdB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dateAndTimePicker" destination="p5M-zK-Hzx" id="5ug-1w-vfC"/>
+                        <outlet property="nameField" destination="kmE-1G-VpQ" id="muV-yg-lXP"/>
+                        <outlet property="plansField" destination="T6C-H1-fyM" id="rAg-aq-0ML"/>
+                        <outlet property="repeatYearly" destination="Wek-oc-F7s" id="hQE-fJ-TcX"/>
+                        <outlet property="segmentedControl" destination="PyI-CY-530" id="JP3-nf-Qwk"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="returnToList" id="h0M-at-gGK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DNm-QJ-tGC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2390" y="-58"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1MW-dF-oUf">
@@ -112,6 +239,9 @@
             <point key="canvasLocation" x="-312" y="-27"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="h0M-at-gGK"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

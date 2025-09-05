@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		134CA3AB2E690C7B002B1F63 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 134CA3AA2E690C7B002B1F63 /* RealmSwift */; };
+		134CA3B22E6915C6002B1F63 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 134CA3B12E6915C6002B1F63 /* SwipeCellKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1341F36F2E38F5EB003EAEC8 /* The Birthday Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Birthday Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				134CA3B22E6915C6002B1F63 /* SwipeCellKit in Frameworks */,
+				134CA3AB2E690C7B002B1F63 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = "The Birthday Reminder";
 			packageProductDependencies = (
+				134CA3AA2E690C7B002B1F63 /* RealmSwift */,
+				134CA3B12E6915C6002B1F63 /* SwipeCellKit */,
 			);
 			productName = "The Birthday Reminder";
 			productReference = 1341F36F2E38F5EB003EAEC8 /* The Birthday Reminder.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 1341F3662E38F5EB003EAEC8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1341F3702E38F5EB003EAEC8 /* Products */;
 			projectDirPath = "";
@@ -333,6 +346,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 20.0.3;
+			};
+		};
+		134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwipeCellKit/SwipeCellKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		134CA3AA2E690C7B002B1F63 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		134CA3B12E6915C6002B1F63 /* SwipeCellKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
+			productName = SwipeCellKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1341F3672E38F5EB003EAEC8 /* Project object */;
 }
