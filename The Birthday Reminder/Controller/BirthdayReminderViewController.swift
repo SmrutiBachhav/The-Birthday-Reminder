@@ -16,6 +16,7 @@ class BirthdayReminderViewController: SwipeTableViewController {
             loadItems()
         }
     }
+    var selectedItem: Item?
     //let defualts = UserDefaults.standard
     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -56,21 +57,31 @@ class BirthdayReminderViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //itemArray[indexPath.row].wished = !itemArray[indexPath.row].wished
         //saveItems()
-        performSegue(withIdentifier: "goToEditItem", sender: self)
+        performSegue(withIdentifier: "showDetails", sender: self)
+        //performSegue(withIdentifier: "addItem", sender: self)
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToEditItem" {
-            if let destinationVC = segue.destination as? DetailViewController {
+        if segue.identifier == "addItem" {
+            if let destinationVC = segue.destination as? AddViewController {
                 destinationVC.category = selectedCategory
                 destinationVC.delegate = self
+                //destinationVC.itemToShow = selectedItem
+            }
+        }
+        if segue.identifier == "showDetails" {
+            if let destinationVC = segue.destination as? ShowViewController,
+               let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.itemToShow = items?[indexPath.row]
             }
         }
     }
     
     //MARK: - Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "goToEditItem", sender: self)
+        selectedItem = nil
+        performSegue(withIdentifier: "addItem", sender: self)
     }
        
     //MARK: - Data Manipulation
@@ -94,8 +105,12 @@ class BirthdayReminderViewController: SwipeTableViewController {
 }
 
 //MARK: - Delegate implementation for data update after navigation
-extension BirthdayReminderViewController: DetailViewControllerDelegate {
-    func didAddBirthday(_ item: Item) {
+extension BirthdayReminderViewController: AddViewControllerDelegate {
+    func didUpdateItemInBdyList(_ item: Item) {
+        tableView.reloadData()
+    }
+    
+    func didUpdateBirthday(_ item: Item) {
         loadItems()
         tableView.reloadData()
     }
