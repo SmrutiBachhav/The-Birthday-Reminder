@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		134CA3AB2E690C7B002B1F63 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 134CA3AA2E690C7B002B1F63 /* RealmSwift */; };
-		134CA3B22E6915C6002B1F63 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 134CA3B12E6915C6002B1F63 /* SwipeCellKit */; };
+		1362575F2E6CBD0F001736BA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1362575E2E6CBD0F001736BA /* RealmSwift */; };
+		136257622E6CBD32001736BA /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 136257612E6CBD32001736BA /* SwipeCellKit */; };
+		FB0235812EC09D7435ED7649 /* Pods_The_Birthday_Reminder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9992E0FB8C7C3C83E287BFA /* Pods_The_Birthday_Reminder.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1341F36F2E38F5EB003EAEC8 /* The Birthday Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Birthday Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A936703FAB0E71436ED898D4 /* Pods-The Birthday Reminder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Birthday Reminder.release.xcconfig"; path = "Target Support Files/Pods-The Birthday Reminder/Pods-The Birthday Reminder.release.xcconfig"; sourceTree = "<group>"; };
+		D4A1462E7EF3D84F14169B40 /* Pods-The Birthday Reminder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Birthday Reminder.debug.xcconfig"; path = "Target Support Files/Pods-The Birthday Reminder/Pods-The Birthday Reminder.debug.xcconfig"; sourceTree = "<group>"; };
+		E9992E0FB8C7C3C83E287BFA /* Pods_The_Birthday_Reminder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_Birthday_Reminder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,8 +45,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				134CA3B22E6915C6002B1F63 /* SwipeCellKit in Frameworks */,
-				134CA3AB2E690C7B002B1F63 /* RealmSwift in Frameworks */,
+				136257622E6CBD32001736BA /* SwipeCellKit in Frameworks */,
+				1362575F2E6CBD0F001736BA /* RealmSwift in Frameworks */,
+				FB0235812EC09D7435ED7649 /* Pods_The_Birthday_Reminder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +59,8 @@
 			children = (
 				1341F3712E38F5EB003EAEC8 /* The Birthday Reminder */,
 				1341F3702E38F5EB003EAEC8 /* Products */,
+				F4BC1FF494E1D035CC6FF640 /* Pods */,
+				6C94FBF3C936BF75C958969D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +72,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6C94FBF3C936BF75C958969D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E9992E0FB8C7C3C83E287BFA /* Pods_The_Birthday_Reminder.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4BC1FF494E1D035CC6FF640 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D4A1462E7EF3D84F14169B40 /* Pods-The Birthday Reminder.debug.xcconfig */,
+				A936703FAB0E71436ED898D4 /* Pods-The Birthday Reminder.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -72,9 +97,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1341F3822E38F5EC003EAEC8 /* Build configuration list for PBXNativeTarget "The Birthday Reminder" */;
 			buildPhases = (
+				F6F348D354579D6F84DB2926 /* [CP] Check Pods Manifest.lock */,
 				1341F36B2E38F5EB003EAEC8 /* Sources */,
 				1341F36C2E38F5EB003EAEC8 /* Frameworks */,
 				1341F36D2E38F5EB003EAEC8 /* Resources */,
+				EFBB3A0DECD939147E46A5FA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -85,8 +112,8 @@
 			);
 			name = "The Birthday Reminder";
 			packageProductDependencies = (
-				134CA3AA2E690C7B002B1F63 /* RealmSwift */,
-				134CA3B12E6915C6002B1F63 /* SwipeCellKit */,
+				1362575E2E6CBD0F001736BA /* RealmSwift */,
+				136257612E6CBD32001736BA /* SwipeCellKit */,
 			);
 			productName = "The Birthday Reminder";
 			productReference = 1341F36F2E38F5EB003EAEC8 /* The Birthday Reminder.app */;
@@ -117,8 +144,8 @@
 			mainGroup = 1341F3662E38F5EB003EAEC8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
+				1362575D2E6CBD0F001736BA /* XCRemoteSwiftPackageReference "realm-swift" */,
+				136257602E6CBD32001736BA /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1341F3702E38F5EB003EAEC8 /* Products */;
@@ -140,6 +167,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		EFBB3A0DECD939147E46A5FA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-The Birthday Reminder/Pods-The Birthday Reminder-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-The Birthday Reminder/Pods-The Birthday Reminder-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-The Birthday Reminder/Pods-The Birthday Reminder-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6F348D354579D6F84DB2926 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-The Birthday Reminder-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1341F36B2E38F5EB003EAEC8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -153,6 +222,7 @@
 /* Begin XCBuildConfiguration section */
 		1341F3832E38F5EC003EAEC8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4A1462E7EF3D84F14169B40 /* Pods-The Birthday Reminder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -180,6 +250,7 @@
 		};
 		1341F3842E38F5EC003EAEC8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A936703FAB0E71436ED898D4 /* Pods-The Birthday Reminder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -348,7 +419,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		1362575D2E6CBD0F001736BA /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
@@ -356,7 +427,7 @@
 				minimumVersion = 20.0.3;
 			};
 		};
-		134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
+		136257602E6CBD32001736BA /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwipeCellKit/SwipeCellKit";
 			requirement = {
@@ -367,14 +438,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		134CA3AA2E690C7B002B1F63 /* RealmSwift */ = {
+		1362575E2E6CBD0F001736BA /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 134CA3A92E690C7B002B1F63 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = 1362575D2E6CBD0F001736BA /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
-		134CA3B12E6915C6002B1F63 /* SwipeCellKit */ = {
+		136257612E6CBD32001736BA /* SwipeCellKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 134CA3B02E6915C6002B1F63 /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
+			package = 136257602E6CBD32001736BA /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
 			productName = SwipeCellKit;
 		};
 /* End XCSwiftPackageProductDependency section */

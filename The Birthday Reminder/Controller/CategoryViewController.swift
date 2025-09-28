@@ -20,20 +20,6 @@ class CategoryViewController: SwipeTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let alert = UIAlertController(title: "Grant Permission", message: "", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
-//            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
-//                if success {
-//                    print("Permission granted")
-//                } else if let error {
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }
-//        }
-//      ))
-//       present(alert, animated: true, completion: nil)
-
         loadCategories()
         
     }
@@ -64,7 +50,6 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "goToItems",
            let destinationVC = segue.destination as? BirthdayReminderViewController,
            let indexPath = tableView.indexPathForSelectedRow {
@@ -130,6 +115,7 @@ class CategoryViewController: SwipeTableViewController {
                 try realm.write {
                     realm.delete(categoryForDeletion)
                 }
+                
             } catch {
                 print("Error deleting category: \(error)")
             }
@@ -139,3 +125,4 @@ class CategoryViewController: SwipeTableViewController {
 }
 
     
+

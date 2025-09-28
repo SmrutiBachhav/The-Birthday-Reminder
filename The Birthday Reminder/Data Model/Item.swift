@@ -9,15 +9,18 @@ import Foundation
 import RealmSwift
 
 class Item: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var date: Date = Date()
-    @objc dynamic var plan: String = ""
-    @objc dynamic var remind: Double = 0   // Offset in seconds (e.g. -86400 for 1 day before)
-    @objc dynamic var repeatYearly: Bool = true
-    @objc dynamic var customRemindDate: Date? = nil
+        //@Persisted === @objc dynamic var
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String = ""
+    @Persisted var date: Date = Date()
+    @Persisted var plan: String = ""
+    @Persisted var remind: Double = 0   // Offset in seconds (e.g. -86400 for 1 day before)
+    @Persisted var repeatYearly: Bool = true
+    @Persisted var customRemindDate: Date? = nil
 
 
     
     //inverse relationship
-    var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
+    //var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
+    @Persisted(originProperty: "items") var parentCategory: LinkingObjects<Category>
 }

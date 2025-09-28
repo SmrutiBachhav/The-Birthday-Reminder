@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class BirthdayReminderViewController: SwipeTableViewController {
     var realm = try! Realm()
@@ -19,15 +20,58 @@ class BirthdayReminderViewController: SwipeTableViewController {
     var selectedItem: Item?
     //let defualts = UserDefaults.standard
     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    @IBOutlet weak var daysRemaining: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
+        NotificationManager.shared.requestNotificationPermission()
+
+        //request notification permissions if needed
+        //requestNotificationPermissionIfNeeded()
+        
         /*for USING USER DEFAULT FOR  LOCAL DATA PERSISTANCE
          let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
          */
         
     }
+    
+//    //MARK: - Notification permission
+//    func requestNotificationPermissionIfNeeded() {
+//        NotificationManager.shared.checkNotificationPermission { (granted) in
+//            if !granted {
+//                self.showNotificationPermissionAlert()
+//            }
+//        }
+//    }
+//    
+//    func showNotificationPermissionAlert() {
+//        let alert = UIAlertController(
+//            title: "Birthday Notifications",
+//            message: "We need permission to send you notifications about your birthdays.",
+//            preferredStyle: .alert
+//        )
+//        alert.addAction(UIAlertAction(title: "Not Now", style: .cancel))
+//        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+//            NotificationManager.shared.requestNotificationPermission { granted in
+//                if granted {
+//                    print("Notification allowed!")
+//                } else {
+//                    print("User declined notification permission")
+//                }
+//            }
+//        }))
+//        present(alert, animated: true)
+//    }
+//
+//    //reschedule notificatiosn for current category
+//    func resceduleNotificationForCurrentCategory() {
+//        guard let category = selectedCategory else { return }
+//        //NotificationManager.shared.checkNotificationPermission { granted in
+//            //guard granted else { return }
+//            NotificationManager.shared.rescheduleNotificationsForCategory(withID: category._id)
+//        //}
+//    }
     //MARK: - TableView DataSource Method
     
     //to get number of Rows
@@ -46,7 +90,7 @@ class BirthdayReminderViewController: SwipeTableViewController {
             cell.textLabel?.text = "No Birthdays Added"
         }
         
-        //        cell.accessoryView = item.wished ? UIImageView(image: UIImage(systemName:"gift.fill")) : .none
+    //        cell.accessoryView = item.wished ? UIImageView(image: UIImage(systemName:"gift.fill")) : .none
         //        (cell.accessoryView as? UIImageView)?.tintColor = .systemPink
         
         return cell
@@ -93,10 +137,21 @@ class BirthdayReminderViewController: SwipeTableViewController {
     //delete data
     override func updateModel(at indexPath: IndexPath) {
         if let bdyDeletion = items?[indexPath.row] {
+            //cancel notification before deleting
+            //NotificationManager.shared.cancelNotification(for: bdyDeletion)
+            
+            // Recreate the identifier based on name + date (same as in scheduleReminder)
+                let calendar = Calendar.current
+                let components = calendar.dateComponents([.day, .month], from: bdyDeletion.date)
+                let identifier = "birthday-\(bdyDeletion.name)-\(components.month ?? 0)-\(components.day ?? 0)"
+                
+                // Cancel notification
+                NotificationManager.shared.cancelReminder(identifier: identifier)
             do {
                 try realm.write {
                     realm.delete(bdyDeletion)
                 }
+                
             } catch {
                 print("Error deleting category: \(error)")
             }
@@ -121,6 +176,7 @@ extension BirthdayReminderViewController: AddViewControllerDelegate {
 extension BirthdayReminderViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         items = items?.filter("name contains[cd] %@", searchBar.text!).sorted(byKeyPath: "date", ascending: true)
+        tableView.reloadData()
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

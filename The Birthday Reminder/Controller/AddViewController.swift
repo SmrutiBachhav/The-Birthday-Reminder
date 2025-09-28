@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 protocol AddViewControllerDelegate: AnyObject {
     //to update show details
@@ -16,34 +17,33 @@ protocol AddViewControllerDelegate: AnyObject {
 }
 
 class AddViewController: UIViewController {
-    
+        
     weak var delegate : AddViewControllerDelegate?
-    //var selectedCategory: Category?
     var category : Category?
-    
     var itemToEdit: Item?
     
-    let newItem = Item()
+    //let newItem = Item()
+    // Store data as simple properties instead of Realm object
+    var itemName: String = ""
+    var itemDate: Date = Date()
+    var itemPlan: String = ""
+    var itemRemind: Double = 0
+    var itemCustomRemindDate: Date?
+    var itemRepeatYearly: Bool = false
     
     var items : Results<Item>?
     var customRemindDate : Date = Date()
     let realm = try! Realm()
-
+    
     @IBOutlet weak var nameField: UITextField!
-    
     @IBOutlet weak var dateAndTimePicker: UIDatePicker!
-    
     @IBOutlet weak var plansField: UITextField!
-    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var repeatYearly: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        
     }
     
     func setupUI() {
@@ -51,12 +51,18 @@ class AddViewController: UIViewController {
             nameField.text = item.name
             dateAndTimePicker.date = item.date
             plansField.text = item.plan
+            itemName = item.name
+            itemDate = item.date
+            itemPlan = item.plan
+            itemRemind = item.remind
+            itemCustomRemindDate = item.customRemindDate
+            itemRepeatYearly = item.repeatYearly
+            
             switch item.remind {
             case 0:
                 if item.customRemindDate != nil {
                     segmentedControl.selectedSegmentIndex = 4
                     customRemindDate = item.customRemindDate!
-                    //showDateTimePicker(for: item)
                 } else {
                     segmentedControl.selectedSegmentIndex = 0
                 }
@@ -73,43 +79,38 @@ class AddViewController: UIViewController {
         }
     }
     
-    @IBAction func indexChanged(_ sender: UISegmentedControl) {
+    //MARK: - Notification permission
+//    func requestNotificationPermissionIfNeeded() {
+//        NotificationManager.shared.checkNotificationPermission { (granted) in
+//            if !granted {
+//                self.showNotificationPermissionAlert()
+//            }
+//        }
+//    }
+//    
 
+    //MARK: - Segmented Control Action to set reminder
+    @IBAction func indexChanged(_ sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
-        //exact time
+            //exact time
         case 0:
             updateReminder(remind: 0, customDate: nil)
-        //1 day before
+            //1 day before
         case 1:
             updateReminder(remind: -86400, customDate: nil)
-
-        //1 weeek before
+            //1 weeek before
         case 2:
             updateReminder(remind: -604800, customDate: nil)
-        //1 month before
+            //1 month before
         case 3:
             updateReminder(remind: -2592000, customDate: nil)
         case 4:
-            showDateTimePicker(for: newItem)
+            showDateTimePicker()
         default: break
         }
     }
     
-    func updateReminder(remind: Double, customDate: Date?) {
-        do {
-            try realm.write {
-                newItem.remind = remind
-                newItem.customRemindDate = customDate
-                if customDate != nil {
-                    customRemindDate = customDate!
-                }
-            }
-        } catch {
-            print("Error saving reminder: \(error)")
-        }
-    }
-    
-    func showDateTimePicker(for item: Item){
+    func showDateTimePicker(){
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .actionSheet)
         
         //add datePicker
@@ -126,57 +127,96 @@ class AddViewController: UIViewController {
             print("Selected custom reminder date:", selectedDate)
             self.customRemindDate = selectedDate
             self.updateReminder(remind: 0, customDate: selectedDate)
-//          item.remind = 0
-//          item.customRemindDate = self.customRemindDate
+            //          item.remind = 0
+            //          item.customRemindDate = self.customRemindDate
             print(self.customRemindDate)
-                    
+            
         }))
         
         // Add Cancel button
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in 
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in
             if self.itemToEdit?.customRemindDate != nil {
                 self.segmentedControl.selectedSegmentIndex = 0
             }
         }))
         alert.view.heightAnchor.constraint(equalToConstant: 500).isActive = true
-
+        
         present(alert, animated: true, completion: nil)
     }
     
     @IBAction func repeatYearly(_ sender: UISwitch) {
+        itemRepeatYearly = sender.isOn
+        //        do {
+        //            try realm.write {
+        //                newItem.repeatYearly = sender.isOn
+        //            }
+        //        } catch {
+        //            print("Error saving repeat yearly: \(error)")
+        //        }
+    }
+    
+    @IBAction func nameField(_ sender: UITextField) {
+        itemName = nameField.text ?? ""
+        //        if let name = nameField.text {
+        //            do {
+        //                try realm.write {
+        //                    newItem.name = name
+        //                }
+        //            } catch {
+        //                print("Error saving name: \(error)")
+        //            }
+        //        }
+    }
+    
+    @IBAction func plansField(_ sender: UITextField) {
+        itemPlan = plansField.text ?? ""
+        //        if let plans = plansField.text {
+        //            do {
+        //                try realm.write {
+        //                    newItem.plan = plans
+        //                }
+        //            } catch {
+        //                print("Error saving plan \(error)")
+        //            }
+        //        }
+    }
+    
+    //MARK: - Data Manipulation
+    func updateReminder(remind: Double, customDate: Date?) {
         do {
             try realm.write {
-                newItem.repeatYearly = sender.isOn
+                itemRemind = remind
+                itemCustomRemindDate = customDate
+                if customDate != nil {
+                    customRemindDate = customDate!
+                }
             }
         } catch {
-            print("Error saving repeat yearly: \(error)")
+            print("Error saving reminder: \(error)")
         }
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-            newItem.name = nameField.text ?? ""
-            newItem.date = dateAndTimePicker.date
-            newItem.plan = plansField.text ?? ""
-            newItem.repeatYearly = repeatYearly.isOn
-
+        itemName = nameField.text ?? ""
+        itemDate = dateAndTimePicker.date
+        itemPlan = plansField.text ?? ""
+        itemRepeatYearly = repeatYearly.isOn
+        
         if nameField.text == "" || segmentedControl == nil {
             let alert = UIAlertController(title: "Error", message: "Please enter details for your reminder.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
-            DispatchQueue.main.async {
-                self.present(alert, animated: true, completion: nil)
-            }
+            self.present(alert, animated: true, completion: nil)
+            return
         }
         
         //Editing existing item
         if let item = itemToEdit {
             do {
                 try realm.write {
-                    item.name = nameField.text ?? ""
-                    item.date = dateAndTimePicker.date
-                    item.plan = plansField.text ?? ""
-                    item.repeatYearly = repeatYearly.isOn
-                    //item.remind = Double(segmentedControl.selectedSegmentIndex)
-                    item.remind = Double(segmentedControl.selectedSegmentIndex)
+                    item.name = itemName
+                    item.date = itemDate
+                    item.plan = itemPlan
+                    item.repeatYearly = itemRepeatYearly
                     switch segmentedControl.selectedSegmentIndex {
                     case 0:
                         item.remind = 0
@@ -186,8 +226,10 @@ class AddViewController: UIViewController {
                         item.customRemindDate = nil
                     case 2:
                         item.remind = -604800
+                        item.customRemindDate = nil
                     case 3:
                         item.remind = -2592000
+                        item.customRemindDate = nil
                     case 4:
                         item.remind = 0
                         item.customRemindDate = customRemindDate
@@ -196,46 +238,55 @@ class AddViewController: UIViewController {
                         item.customRemindDate = nil
                     }
                 }
+                NotificationManager.shared.requestNotificationPermissionIfNeeded(for: item.name, on: item.date, doRepeat: item.repeatYearly, from: self)
+                //Sceheduled Notification for existing item
+//                NotificationManager.shared.scheduleReminder(for: item.name, on: item.date, doRepeat: item.repeatYearly)
+                
                 delegate?.didUpdateBirthday(item)
-                //delegate?.didUpdateItemInBdyList(item)
                 navigationController?.popViewController(animated: true)
             } catch {
                 print("Error Editing Data: \(error)")
             }
         } else if let category = category {     //Adding new Category
+            let newItem = Item()
             do {
                 try realm.write {
+                    newItem.name = itemName
+                    newItem.date = itemDate
+                    newItem.plan = itemPlan
+                    newItem.repeatYearly = itemRepeatYearly
+                    switch segmentedControl.selectedSegmentIndex {
+                    case 0:
+                        newItem.remind = 0
+                        newItem.customRemindDate = nil
+                    case 1:
+                        newItem.remind = -86400
+                        newItem.customRemindDate = nil
+                    case 2:
+                        newItem.remind = -604800
+                        newItem.customRemindDate = nil
+                    case 3:
+                        newItem.remind = -2592000
+                        newItem.customRemindDate = nil
+                    case 4:
+                        newItem.remind = 0
+                        newItem.customRemindDate = customRemindDate
+                    default:
+                        newItem.remind = 0
+                        newItem.customRemindDate = nil
+                    }
                     category.items.append(newItem)
                 }
+                
+                NotificationManager.shared.requestNotificationPermissionIfNeeded(for: newItem.name, on: newItem.date, doRepeat: newItem.repeatYearly, from: self)
+                
+                //Sceheduled Notification for existing item
+//                NotificationManager.shared.scheduleReminder(for: newItem.name, on: newItem.date, doRepeat: newItem.repeatYearly)
+                
                 delegate?.didUpdateBirthday(newItem)
-                //delegate?.didUpdateItemInBdyList(newItem)
                 navigationController?.popViewController(animated: true)
             } catch {
                 print("Error saving new item: \(error)")
-            }
-        }
-    }
-  
-    @IBAction func nameField(_ sender: UITextField) {
-        if let name = nameField.text {
-            do {
-                try realm.write {
-                    newItem.name = name
-                }
-            } catch {
-                print("Error saving name: \(error)")
-            }
-        }
-    }
-    
-    @IBAction func plansField(_ sender: UITextField) {
-        if let plans = plansField.text {
-            do {
-                try realm.write {
-                    newItem.plan = plans
-                }
-            } catch {
-                print("Error saving plan \(error)")
             }
         }
     }

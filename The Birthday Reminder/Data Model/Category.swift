@@ -9,8 +9,10 @@ import Foundation
 import RealmSwift
 
 class Category: Object {
-    @objc dynamic var name : String = ""
-    
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name : String = ""
+    //@Persisted === @objc dynamic var
     //forward relation
-    let items = List<Item>() //contains list of item object
+    //let items = List<Item>() //contains list of item object
+    @Persisted var items = List<Item>()
 }
