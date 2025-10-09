@@ -7,12 +7,15 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 //import UserNotifications
 class CategoryViewController: SwipeTableViewController {
     
     //var categories = [Category]()
     var categories : Results<Category>?
+    
+    let baseColor = UIColor(hexString: "#5A1B43")
     
     let realm = try! Realm()
     
@@ -21,7 +24,24 @@ class CategoryViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategories()
-        
+        tableView.separatorStyle = .none
+//        if let baseColor = baseColor {
+//            view.backgroundColor = UIColor(
+//                gradientStyle: .topToBottom,
+//                withFrame: view.bounds,
+//                andColors: [
+//                    baseColor.lighten(byPercentage: 0.25) ?? baseColor,
+//                    baseColor.darken(byPercentage: 0.75) ?? baseColor
+//                ]
+//            )
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else { fatalError("Navigation Bar doesn't exist it is null") }
+        navBar.backgroundColor = UIColor(hexString: "#5A1B43")
+        navBar.tintColor = ContrastColorOf(navBar.backgroundColor!, returnFlat: true)
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBar.backgroundColor!, returnFlat: true)]
     }
     
     //MARK: - TableView DataSource Methods
@@ -37,7 +57,16 @@ class CategoryViewController: SwipeTableViewController {
             
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added!"
         
-        cell.accessoryType = .disclosureIndicator
+        if let category = categories?[indexPath.row] {
+            guard let categoryColor = UIColor(hexString: category.color) else {
+                fatalError()
+            }
+            configurePebbleView(for: cell, with: categoryColor)
+//            cell.backgroundColor = categoryColor
+           cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
+        }
+        
+        //cell.accessoryType = .disclosureIndicator
         
         return cell
     }
@@ -76,8 +105,9 @@ class CategoryViewController: SwipeTableViewController {
             } else {
                 let newCategory = Category()
                 newCategory.name = texteField.text!
+                newCategory.color = UIColor.randomFlat().hexValue()
                 self.save(category: newCategory)
-                
+                //self.categoryArray.append(newCategory) no need to append as Results is auto-updating container type
                 print("Added category")
                 
             }

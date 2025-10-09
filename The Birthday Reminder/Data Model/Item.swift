@@ -17,6 +17,8 @@ class Item: Object {
     @Persisted var remind: Double = 0   // Offset in seconds (e.g. -86400 for 1 day before)
     @Persisted var repeatYearly: Bool = true
     @Persisted var customRemindDate: Date? = nil
+    //save hex string in color as realm takes standard datatypes not UIColor...
+    @Persisted var color : String = ""
 
 
     

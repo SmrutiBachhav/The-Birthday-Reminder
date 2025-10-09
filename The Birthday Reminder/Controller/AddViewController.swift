@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import UserNotifications
+import ChameleonFramework
 
 protocol AddViewControllerDelegate: AnyObject {
     //to update show details
@@ -21,6 +22,7 @@ class AddViewController: UIViewController {
     weak var delegate : AddViewControllerDelegate?
     var category : Category?
     var itemToEdit: Item?
+    
     
     //let newItem = Item()
     // Store data as simple properties instead of Realm object
@@ -44,6 +46,12 @@ class AddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        updateUIColors()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            updateUIColors()
     }
     
     func setupUI() {
@@ -76,18 +84,72 @@ class AddViewController: UIViewController {
                 segmentedControl.selectedSegmentIndex = 0
             }
             repeatYearly.isOn = item.repeatYearly
+        
         }
     }
     
-    //MARK: - Notification permission
-//    func requestNotificationPermissionIfNeeded() {
-//        NotificationManager.shared.checkNotificationPermission { (granted) in
-//            if !granted {
-//                self.showNotificationPermissionAlert()
+    // MARK: - UI Color Updates
+    func updateUIColors() {
+        guard let category = self.category,
+              let categoryColor = UIColor(hexString: category.color) else { return }
+        
+        // Update navigation bar
+        updateNavigationBar(with: categoryColor)
+        
+        // Update view background
+        view.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: view.bounds, andColors: [categoryColor.lighten(byPercentage: 0.25) ?? categoryColor, categoryColor.darken(byPercentage: 0.75) ?? categoryColor])
+        
+        // Update UI controls colors
+        updateControlColors(with: categoryColor)
+    }
+    private func updateNavigationBar(with color: UIColor) {
+            guard let navBar = navigationController?.navigationBar else { return }
+            
+            navBar.backgroundColor = color
+            navBar.tintColor = ContrastColorOf(color, returnFlat: true)
+            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(color, returnFlat: true)]
+            navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(color, returnFlat: true)]
+        }
+        
+        private func updateControlColors(with color: UIColor) {
+            // Update segmented control
+            segmentedControl.backgroundColor = color.lighten(byPercentage: 0.8)
+            segmentedControl.selectedSegmentTintColor = color
+            segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: ContrastColorOf(color, returnFlat: true)], for: .selected)
+            segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: color], for: .normal)
+            
+            // Update switch
+            repeatYearly.onTintColor = color
+            
+            // Update date picker (if possible)
+//            if #available(iOS 14.0, *) {
+//                dateAndTimePicker.preferredDatePickerStyle = .automatic
+            dateAndTimePicker.tintColor = color.lighten(byPercentage: 0.5)
 //            }
-//        }
-//    }
-//    
+            
+            // Update text fields
+            nameField.tintColor = color.lighten(byPercentage: 0.50)
+            plansField.tintColor = color.lighten(byPercentage: 0.50)
+            
+            // Add subtle borders to text fields
+            styleTextField(nameField, with: color)
+            styleTextField(plansField, with: color)
+        }
+        
+        private func styleTextField(_ textField: UITextField, with color: UIColor) {
+//            textField.layer.borderColor = color.cgColor
+//            textField.layer.borderWidth = 1.0
+//            textField.layer.cornerRadius = 8.0
+            textField.backgroundColor = color
+            
+            // Add padding to text field
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+            textField.leftView = paddingView
+            textField.leftViewMode = .always
+        }
+
+    
+    
 
     //MARK: - Segmented Control Action to set reminder
     @IBAction func indexChanged(_ sender: UISegmentedControl) {
@@ -120,7 +182,6 @@ class AddViewController: UIViewController {
         //datePicker.frame = CGRect(x: 0, y: 0, width: alert.view.bounds.size.width - 20, height: 250)
         //autolayout intstead of frame
         datePicker.translatesAutoresizingMaskIntoConstraints = false
-        
         alert.view.addSubview(datePicker)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
             let selectedDate = datePicker.date

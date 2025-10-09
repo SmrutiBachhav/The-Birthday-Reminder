@@ -8,8 +8,12 @@
 import UIKit
 import RealmSwift
 import UserNotifications
+import ChameleonFramework
 
 class BirthdayReminderViewController: SwipeTableViewController {
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var realm = try! Realm()
     var items : Results<Item>!
     var selectedCategory: Category? {
@@ -24,54 +28,32 @@ class BirthdayReminderViewController: SwipeTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorStyle = .none
         tableView.reloadData()
         NotificationManager.shared.requestNotificationPermission()
-
-        //request notification permissions if needed
-        //requestNotificationPermissionIfNeeded()
-        
-        /*for USING USER DEFAULT FOR  LOCAL DATA PERSISTANCE
-         let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-         */
-        
     }
     
-//    //MARK: - Notification permission
-//    func requestNotificationPermissionIfNeeded() {
-//        NotificationManager.shared.checkNotificationPermission { (granted) in
-//            if !granted {
-//                self.showNotificationPermissionAlert()
-//            }
-//        }
-//    }
-//    
-//    func showNotificationPermissionAlert() {
-//        let alert = UIAlertController(
-//            title: "Birthday Notifications",
-//            message: "We need permission to send you notifications about your birthdays.",
-//            preferredStyle: .alert
-//        )
-//        alert.addAction(UIAlertAction(title: "Not Now", style: .cancel))
-//        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-//            NotificationManager.shared.requestNotificationPermission { granted in
-//                if granted {
-//                    print("Notification allowed!")
-//                } else {
-//                    print("User declined notification permission")
-//                }
-//            }
-//        }))
-//        present(alert, animated: true)
-//    }
-//
-//    //reschedule notificatiosn for current category
-//    func resceduleNotificationForCurrentCategory() {
-//        guard let category = selectedCategory else { return }
-//        //NotificationManager.shared.checkNotificationPermission { granted in
-//            //guard granted else { return }
-//            NotificationManager.shared.rescheduleNotificationsForCategory(withID: category._id)
-//        //}
-//    }
+    //just before viewDidLoad,nav stack is established, any controller is not nil
+    override func viewWillAppear(_ animated: Bool) {
+        if let colorHex = selectedCategory?.color {
+            //selectedcategry can forced unwrap as we have done optional binding earlier ?.color
+            title = selectedCategory?.name
+            //check if navcontroller is nil then....
+            guard let navBar = navigationController?.navigationBar else {fatalError("Nav controller doesn't exist! it is nil")
+            }
+            if let navBarColor = UIColor(hexString: colorHex) {
+                navBar.backgroundColor = navBarColor
+                //applies to nav items and bar button items
+                navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+                
+                navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColor, returnFlat: true)]
+                
+                searchBar.barTintColor = navBarColor
+            }
+        }
+    }
+    
+
     //MARK: - TableView DataSource Method
     
     //to get number of Rows
@@ -86,9 +68,19 @@ class BirthdayReminderViewController: SwipeTableViewController {
         
         if let item = items?[indexPath.row] {
             cell.textLabel?.text = item.name
+            //darken(byper...) is optional and backgroundColor needs definite value therfore if let to unwrap the optional
+            //check for UIColor is not empty then darken by.... SelectedCategory will definitely have value as todoItems definitely has value and comes from selectedCategory(loadItems)
+            if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(items!.count)) {
+                configurePebbleView(for: cell, with: color)
+                
+                //cell.backgroundColor = color
+                //text color according to background color (light->black text or dark->white text)
+                //cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true
+            }
         } else {
             cell.textLabel?.text = "No Birthdays Added"
         }
+        
         
     //        cell.accessoryView = item.wished ? UIImageView(image: UIImage(systemName:"gift.fill")) : .none
         //        (cell.accessoryView as? UIImageView)?.tintColor = .systemPink
@@ -118,6 +110,7 @@ class BirthdayReminderViewController: SwipeTableViewController {
             if let destinationVC = segue.destination as? ShowViewController,
                let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.itemToShow = items?[indexPath.row]
+                destinationVC.category = selectedCategory  // Pass the selected category
             }
         }
     }

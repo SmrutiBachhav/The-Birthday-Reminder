@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="itA-sy-8az">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -33,7 +34,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Birthday Reminder" id="N4D-83-rVQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ble-rl-Vlv">
-                            <color key="tintColor" systemColor="systemTealColor"/>
                             <connections>
                                 <action selector="addButtonPressd:" destination="Pk0-wm-0rk" id="OI8-jJ-mjt"/>
                             </connections>
@@ -76,13 +76,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Never Forget a Birthday!" id="nrm-dx-7GP">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="OBw-Xx-CBz">
-                            <color key="tintColor" systemColor="systemTealColor"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="s1y-Tp-P8u"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="hys-NA-vfu" id="mA5-u0-dFa"/>
                         <segue destination="SfQ-82-bPe" kind="show" identifier="addItem" id="BjV-qS-AaW"/>
                         <segue destination="xQc-PN-nRy" kind="show" identifier="showDetails" id="dwl-D8-zWT"/>
                     </connections>
@@ -166,6 +166,8 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Repeat every year" translatesAutoresizingMaskIntoConstraints="NO" id="Wek-oc-F7s">
                                                 <rect key="frame" x="275.66666666666669" y="9.6666666666667425" width="51" height="31"/>
+                                                <color key="onTintColor" red="0.69803921570000005" green="0.20392156859999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="repeatYearly:" destination="SfQ-82-bPe" eventType="valueChanged" id="4fr-O1-Hla"/>
                                                 </connections>
@@ -244,6 +246,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Zmw-0a-yxK">
                                                 <rect key="frame" x="0.0" y="1.6666666666666643" width="41" height="85"/>
+                                                <color key="tintColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="41" id="r2q-ZO-Yjm"/>
                                                 </constraints>
@@ -264,6 +267,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="calendar" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ph6-l6-eDJ">
                                                 <rect key="frame" x="0.0" y="1.6666666666666643" width="41" height="85.333333333333343"/>
+                                                <color key="tintColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="41" id="1xf-fF-sUZ"/>
                                                 </constraints>
@@ -284,6 +288,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="app.gift" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="71O-k2-0KM">
                                                 <rect key="frame" x="0.0" y="1.6666666666666643" width="41" height="85.666666666666686"/>
+                                                <color key="tintColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="41" id="gaP-TL-8GB"/>
                                                 </constraints>
@@ -304,6 +309,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="stopwatch.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="G4W-2b-ko6">
                                                 <rect key="frame" x="0.0" y="-1.0000000000000071" width="41" height="88.666666666666657"/>
+                                                <color key="tintColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="41" id="5CV-K9-ebt"/>
                                                 </constraints>
@@ -333,6 +339,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="41" id="luH-4O-z4G"/>
                                                 </constraints>
+                                                <color key="onTintColor" systemColor="systemGray4Color"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -370,7 +377,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BjV-qS-AaW"/>
+        <segue reference="mbe-kl-icn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="app.gift" catalog="system" width="128" height="114"/>
@@ -380,11 +387,14 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
-            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.18823529410000001" green="0.69019607839999997" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
